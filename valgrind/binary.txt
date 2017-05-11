@@ -1,0 +1,624 @@
+--------------------------------------------------------------------------------
+Profile data file 'callgrind.out.3714' (creator: callgrind-3.5.0)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+L2 cache: 
+Timerange: Basic block 0 - 654817222
+Trigger: Program termination
+Profiled target:  ./test-allocator -f samples_cp/assign7/binary-pattern.script (PID 3714, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       99
+Include dirs:     
+User annotated:   
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+        Ir 
+--------------------------------------------------------------------------------
+62,636,428  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+       Ir  file:function
+--------------------------------------------------------------------------------
+9,839,564  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:numForSize [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+7,110,320  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+6,165,292  /afs/ir/users/c/w/cwoebker/cs107/assign7/test-allocator.c:EvalScriptForPerformance [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+5,725,916  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:find_fit [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+5,671,252  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:addToFreeList [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+4,670,592  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+4,445,888  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:removeFromFreeList [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+3,800,960  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:coalesce [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+3,068,000  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:place [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+2,208,000  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:myfree [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+1,927,528  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:nextHeader [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+1,636,248  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+1,566,992  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:mymalloc [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+1,020,460  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:previousHeader [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+1,012,116  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:isAllocated [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+  768,000  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForPayload [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+  576,000  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:HeaderForPayload [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+  485,960  /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:RoundUp [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+  485,960  /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:HeapSegmentSize [/afs/ir.stanford.edu/users/c/w/cwoebker/cs107/assign7/test-allocator]
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c
+--------------------------------------------------------------------------------
+     Ir 
+
+-- line 19 ----------------------------------------
+      .  // Return address of the first heap byte
+      .  void *HeapSegmentStart()
+      .  {
+      .      return segment_start;
+      .  }
+      .  
+      .  // Returns the in-use size of heap (in bytes)
+      .  size_t HeapSegmentSize() 
+194,384  {
+ 97,192      return segment_size;
+194,384  }
+      .  
+      .  // Returns the number of bytes in each page
+      .  size_t HeapPageSize() 
+  7,152  {
+  7,152      if (page_size == 0)
+      .          page_size = getpagesize();
+  2,384      return page_size;
+  4,768  }
+      .  
+      .  
+      .  // Discards any previous segment by unmapping old segment
+      .  // Then reinits segments by reserving new segment with mmap
+      .  void *InitHeapSegment(int numPages)
+      .  {
+      .      if (segment_start != NULL) { // discard any existing segment
+      .          if (munmap(segment_start, MAX_HEAP) == -1) return NULL;
+-- line 45 ----------------------------------------
+-- line 51 ----------------------------------------
+      .      segment_size = 0;
+      .      return ExtendHeapSegment(numPages);
+      .  }
+      .  
+      .  
+      .  // Extends the segment by number of pages and returns the start address of new pages
+      .  // In this model, the segment cannot shrink
+      .  void *ExtendHeapSegment(int numPagesToAdd)
+  1,788  {	
+  1,788      if (segment_start == NULL) return NULL; // Init has not been called?
+      .  
+  2,980      void *previous_end = (char *)segment_start + segment_size;
+      .      
+  1,192      if (numPagesToAdd <= 0) return previous_end;
+  2,384      size_t increment = numPagesToAdd*HeapPageSize();
+  5,364  => /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:HeapPageSize (745x)
+  3,576      if (increment > MAX_HEAP || (segment_size + increment) > MAX_HEAP) 
+      .          return NULL;
+  1,788      segment_size += increment;
+  4,768      if (mprotect(previous_end, increment, PROT_READ|PROT_WRITE) == -1)
+  7,152  => ???:mprotect (744x)
+      .          return NULL;
+  1,788      return previous_end;
+  1,192  }
+      .  
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c
+--------------------------------------------------------------------------------
+       Ir 
+
+-- line 55 ----------------------------------------
+        .  
+        .  void *endHeapSegment;
+        .  void *startHeapSegment;
+        .  
+        .  freeList mainList;
+        .  
+        .  freeList bins[NUMBINS]; // exact bins till 64 and the rest a range of power two, until 8192
+        .  
+  722,604  static inline int numForSize(unsigned int size) {
+  481,736      if (size <= 24) return 0;
+  481,736      if (size <= 64) { // 1 2 3 4 5 for exact bin
+   16,728          size -= 32;
+   50,184          size /= 8;
+   66,912          return size + 1;
+        .      }
+  448,280      if (size <= 8192) {
+2,162,400          for (int i = 7; i <= 13; i++) {
+3,335,800              if (size <= (1<<i)) {
+  482,760                  size = i - 7;
+  160,920                  break;
+        .              }
+        .          }
+  643,680          return size + 6;
+        .      }
+  304,088      return NUMBINS-1;
+  481,736  }
+        .  
+        .  // Rounds up size to nearest multiple of given power of 2
+        .  // does this by adding mult-1 to sz, then masking off the
+        .  // the bottom bits, result is power of mult
+        .  // NOTE: mult has to be power of 2 for this to work!
+        .  static inline size_t RoundUp(size_t sz, int mult)
+   97,192  {
+  291,576     return (sz + mult-1) & ~(mult-1);
+   97,192  }
+        .  
+        .  static inline size_t createHeaderSize(size_t sizeBits, unsigned int allocationBit)
+  545,416  {
+  545,416      return ((sizeBits) | (allocationBit));
+  545,416  }
+        .  
+        .  static inline size_t getSize(headerT *header)
+2,031,520  {
+3,047,280      return ((unsigned int)(header->payloadSize) & ~0x7);
+2,031,520  }
+        .  
+        .  static inline size_t isAllocated(headerT *header)
+  289,176  {
+  433,764      return ((unsigned int)(header->payloadSize) & 0x1);
+  289,176  }
+        .  
+        .  ////////////////////////////
+        .  // BLOCK HELPER FUNCTIONS //
+        .  ////////////////////////////
+        .  
+        .  // Given a pointer to block header, advance past
+        .  // header to access start of payload
+        .  static inline void *PayloadForHeader(headerT *header)
+   96,000  {
+   96,000     return (char *)header + sizeof(headerT);
+   96,000  }
+        .  
+        .  // Given a pointer to start of payload, simply back up
+        .  // to access its block header
+        .  static inline headerT *HeaderForPayload(void *payload)
+  192,000  {
+  192,000      return (headerT *)((char *)payload - sizeof(headerT));
+  192,000  }
+        .  
+        .  // Warning these two functions depend on the header!!!!!!! so make sure to reget them or sth...
+        .  
+        .  static inline headerT *FooterForPayload(void *payload)
+  192,000  {
+  384,000      return (headerT *)((char *)payload + (getSize(HeaderForPayload(payload)) - HEADER2));
+  336,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (60000x)
+  288,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:HeaderForPayload (60000x)
+  192,000  }
+        .  
+1,167,648  static inline headerT *FooterForHeader(headerT *header){
+        .      //return FooterForPayload(PayloadForHeader(header));
+2,724,512      return (headerT *)((char *)header + getSize(header) - sizeof(headerT));
+2,724,512  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (486520x)
+  778,432  }
+        .  
+        .  // getting next or previous Header
+        .  static inline headerT *nextHeader(headerT *header)
+  289,308  {
+  385,744      size_t currentSize = getSize(header);
+  675,052  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (120545x)
+  578,616      if( (void *)((char *)header+currentSize) == endHeapSegment)
+    1,192          return NULL; // last Header reached
+  479,796      return (headerT *)((char *)header+currentSize);
+  192,872  }
+        .  
+        .  static inline headerT *previousHeader(headerT *header)
+  194,384  {
+  145,788      if((void *)header == startHeapSegment){
+       16          return NULL; // payload is the first Header , nothing there before
+        .      }
+  485,888      return (headerT *)((char *)(header) - getSize( (headerT *) ((char *)header - sizeof(headerT)) ));
+  340,116  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (60735x)
+  194,384  }
+        .  
+        .  /*void validate_heap() {
+        .      void *end = (void *)((char *)HeapSegmentStart() + HeapSegmentSize());
+        .      for(headerT *header = (headerT *)HeapSegmentStart(); (unsigned int)header < (unsigned int)end; header = (headerT *)((char *)header + getSize(header))) {
+        .          if (isAllocated(header) == 0) { // if free check if in free list
+        .              bool found = false;
+        .              void *ptr = PayloadForHeader(header);
+        .              void *currentBlock = mainList.first;
+-- line 159 ----------------------------------------
+-- line 178 ----------------------------------------
+        .              fprintf(stderr, "Error non free block in free list. %p\n", currentBlock);
+        .              exit(2);
+        .          }
+        .      }
+        .  }
+        .  */
+        .  
+        .  // as first element
+  289,308  static void addToFreeList(headerT *freeHeader) {
+  578,616      int index = numForSize(getSize(freeHeader));
+  675,052  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (120545x)
+4,247,808  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:numForSize (120545x)
+1,174,328      if (bins[index].first == NULL || bins[index].last == NULL) { // no elements so far
+  210,656          FooterForHeader(freeHeader)->ptr = NULL; // set next to NULL
+1,832,284  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (65830x)
+  105,328          freeHeader->ptr = NULL; // set previous of first element to NULL
+  368,648          bins[index].first = freeHeader;
+  368,648          bins[index].last = freeHeader;
+        .      } else { // append to list as first element
+  481,492          FooterForHeader(freeHeader)->ptr = bins[index].first;
+  831,668  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (54715x)
+   87,544          freeHeader->ptr = NULL;
+  350,176          bins[index].first->ptr = freeHeader;
+  306,404          bins[index].first = freeHeader; // set new last ptr
+        .          //printf("Added[%p]: -> [%p] -> [%p]\n", bins[index].first, HeaderForPayload(bins[index].last)->ptr, bins[index].last);
+        .      }
+1,157,232      bins[index].size++;
+  192,872  }
+        .  
+  289,296  static void removeFromFreeList(headerT *freeHeader) {
+  578,592      int index = numForSize(getSize(freeHeader));
+  675,024  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (120540x)
+4,247,756  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:numForSize (120540x)
+  289,296      headerT *prev_Header = freeHeader->ptr;
+  482,160      headerT *next_Header = FooterForHeader(freeHeader)->ptr;
+2,204,228  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (120540x)
+        .  
+  192,864      if (prev_Header) {
+   39,160          if (next_Header) {
+        .              // just remove and reconnect
+  114,096              FooterForHeader(prev_Header)->ptr = next_Header;
+  361,304  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (23770x)
+   76,064              next_Header->ptr = prev_Header;
+        .          }
+        .          else {
+        .              // next is NULL, so prev is new last element
+    2,256              FooterForHeader(prev_Header)->ptr = NULL;
+   10,716  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (705x)
+    4,512              bins[index].last = prev_Header;
+        .          }
+        .      }
+        .      else {
+  153,704          if (next_Header) {
+        .              // prev is NULL, so next is new first element
+   48,384              next_Header->ptr = NULL;
+  193,536              bins[index].first = next_Header;
+        .          }
+        .          else {
+        .              // both are invalid, so list is empty
+  315,960              bins[index].first = NULL;
+  315,960              bins[index].last = NULL;
+        .          }
+        .      }
+        .  
+1,157,184      bins[index].size--;
+  192,864  }
+        .  
+        .  
+        .  /* find the next fit in the free list
+        .   */
+        .  static headerT *find_fit(size_t adjustedSize)
+  144,000  {
+  192,000      int index = numForSize(adjustedSize);
+1,344,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:numForSize (60000x)
+        .  
+1,165,032      for (int i = index; i < NUMBINS; i++) {
+3,225,696          if (bins[i].first == NULL || bins[i].last == NULL) {
+        .              continue;; // list is empty, nothing to find
+        .          }
+  332,248          headerT *currentHeader = bins[i].first;
+  142,512          while (currentHeader != NULL) {
+  237,320              if (getSize(currentHeader) >= adjustedSize) {
+  332,248  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (59330x)
+  142,212                  return currentHeader;
+        .              }
+      300              currentHeader = FooterForHeader(currentHeader)->ptr;
+    1,140  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (75x)
+        .          }
+        .      }
+   48,596      return NULL;
+        .  
+        .      /* find_next code thats broken
+        .      if (curFreePos == NULL) {
+        .          curFreePos = bins[index].first;
+        .      }
+        .      int count = 0;
+        .      while (true) {
+        .          if (curFreePos == NULL) {
+-- line 263 ----------------------------------------
+-- line 271 ----------------------------------------
+        .          curFreePos = FooterForPayload(curFreePos)->ptr;
+        .          if (ret) return ret;
+        .          if (count == bins[index].size) {
+        .              break;
+        .          }
+        .          count++;
+        .      }
+        .      return NULL;*/
+   96,000  }
+        .  
+        .  /* The responsibility of the myinit function is to set up the heap to
+        .   * its initial, empty ready-to-go state.  This will be called before
+        .   * any allocation requests are made.  The myinit function may also
+        .   * be called later in program and is expected to wipe out the current
+        .   * heap contents and start over fresh. This "reset" option is specificcally
+        .   * needed by the test harness to run a sequence of scripts, one after another, 
+        .   * without restarting program from scratch.
+-- line 287 ----------------------------------------
+-- line 302 ----------------------------------------
+        .  
+        .      startHeapSegment = HeapSegmentStart();
+        .      endHeapSegment = (void*)((char*)startHeapSegment+(unsigned int)HeapSegmentSize());
+        .  
+        .      return 0;
+        .  }
+        .  
+        .  static headerT *coalesce(headerT *header)
+  194,384  {
+   48,596      bool previousBlockAllocated=0;
+   48,596      bool nextBlockAllocated=0;
+        .  
+  194,384      headerT *prev_Header = previousHeader(header);
+1,360,576  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:previousHeader (60745x)
+  194,384      headerT *next_Header = nextHeader(header);
+1,310,900  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:nextHeader (60745x)
+        .  
+  356,304      if((prev_Header==NULL)||(isAllocated(prev_Header)==1)){
+  676,116  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:isAllocated (60735x)
+   16,172          previousBlockAllocated=true;
+        .      } else {
+   97,272          removeFromFreeList(prev_Header);
+4,757,664  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:removeFromFreeList (40530x)
+        .      }
+  369,780      if((next_Header==NULL)||(isAllocated(next_Header)==1)){
+  336,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:isAllocated (60000x)
+   32,588         nextBlockAllocated=true;
+        .      } else {
+   48,024          removeFromFreeList(next_Header);
+1,905,172  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:removeFromFreeList (20010x)
+        .      }
+        .  
+  194,384      size_t size = getSize(header);
+  679,196  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (60745x)
+        .      size_t newSize;
+        .  
+  275,252      if (previousBlockAllocated && !nextBlockAllocated) { // next is free
+       32          size += getSize(next_Header);
+       56  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (10x)
+       40          newSize = createHeaderSize(size, 0);
+  194,592  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (10x)
+       24          header->payloadSize = newSize;
+       48          FooterForHeader(header)->payloadSize = newSize;
+  616,208  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (10x)
+        .      }
+  389,060      else if (!previousBlockAllocated && nextBlockAllocated) { // previous is free
+   65,696          size += getSize(prev_Header);
+  114,968  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (20530x)
+   82,120          newSize = createHeaderSize(size, 0);
+   98,544  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (20530x)
+   49,272          prev_Header->payloadSize = newSize;
+   98,544          FooterForHeader(header)->payloadSize = newSize;
+  312,056  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (20530x)
+        .  
+   32,848          header = prev_Header;
+        .      }
+  256,820      else if (!previousBlockAllocated && !nextBlockAllocated) { // both are free
+  144,000          size += getSize(next_Header) +
+  224,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (40000x)
+        .                  getSize(prev_Header);
+   80,000          newSize = createHeaderSize(size, 0);
+   96,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (20000x)
+   48,000          prev_Header->payloadSize = newSize;
+   96,000          FooterForHeader(next_Header)->payloadSize = newSize;
+  304,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (20000x)
+        .  
+   32,000          header = prev_Header;
+        .      }
+        .      else { // none are free
+        .          // just return
+   48,492          return header;
+        .      }
+  113,460      return header;
+  194,384  }
+        .  
+        .  static void place(headerT *header, int adjustedSize)
+  192,000  {
+        .      // we can definetely remove the old pointer form the free list
+  144,000      removeFromFreeList(header);
+6,815,232  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:removeFromFreeList (60000x)
+        .  
+  192,000      headerT *footer= FooterForHeader(header);
+2,729,920  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (60000x)
+  432,000      size_t remainder_t = getSize(header) - adjustedSize;
+  337,120  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (60000x)
+        .  
+        .      //printf("Allocated bytes: %d = %d - %d\n", remainder_t, getSize(header), adjustedSize);
+        .  
+   96,000      if (remainder_t >= MINIMUM_BLOCK_SIZE) {
+        .          //remainder bigger than min_blocksize, so we should split
+  334,880  	    header->payloadSize = createHeaderSize(adjustedSize, 1);
+  862,080  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (59800x)
+  334,880  	    FooterForHeader(header)->payloadSize = header->payloadSize;
+  908,960  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (59800x)
+        .  
+  191,360          headerT *split = nextHeader(header);
+1,291,680  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:nextHeader (59800x)
+  334,880          split->payloadSize = createHeaderSize(remainder_t, 0);
+  287,040  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (59800x)
+  430,560          FooterForHeader(split)->payloadSize = createHeaderSize(remainder_t, 0);
+  908,960  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (59800x)
+  287,040  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (59800x)
+  191,360          addToFreeList(split);
+7,036,788  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:addToFreeList (59800x)
+        .      }
+        .      else{
+        .          // remainder not bigger so we should take the whole memory
+        .          // so all we do is that we set the allocated bit
+    1,440  		header->payloadSize = createHeaderSize(getSize(header),1);
+    1,120  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (200x)
+      960  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (200x)
+      640  		footer->payloadSize = header->payloadSize;
+        .  	}
+  192,000  }
+        .  
+        .  
+        .  /*
+        .  Check the list of free nodes to see if there are nodes that can be supplied to the client that have
+        .  already been allocated and freed.
+        .  If there are none, then bring in a new page of memory and provide the client with the newly allocated data
+        .  */
+        .  void *mymalloc(size_t requestedSize)
+  144,000  {
+   96,000      if (requestedSize == 0) {
+        .        return NULL;
+        .      }
+        .      // calcluate adjusted size
+        .      size_t adjustedSize;
+   96,000      if (requestedSize<=ALIGNMENT) {
+        .          adjustedSize = MINIMUM_BLOCK_SIZE; // 24 bytes
+        .      } else {
+  288,000          adjustedSize = 2 * sizeof(headerT) + RoundUp(requestedSize, 8);
+  485,960  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:RoundUp (60000x)
+        .      }
+        .  
+        .      // make sure second argument is a multiple of two......
+        .      headerT *header;
+        .  
+  288,000      if ((header = find_fit(adjustedSize)) != NULL) { // if NULL nothing was found
+7,403,304  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:find_fit (60000x)
+        .          //place and split
+  237,020          place(header, adjustedSize);
+22,140,820  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:place (59255x)
+  237,020          return PayloadForHeader(header);
+  288,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:PayloadForHeader (59255x)
+        .      }
+        .  
+        .      // no fit found, extend memory and place block */
+    4,172      size_t extendsize = MAX(adjustedSize, HEAP_EXTEND_SIZE);
+        .  
+    3,576      size_t totalSize = RoundUp(extendsize, HeapPageSize());
+    5,960  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:RoundUp (745x)
+   16,092  => /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:HeapPageSize (745x)
+    4,172      size_t npages = totalSize/HeapPageSize();
+    5,364  => /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:HeapPageSize (745x)
+        .      //headerT *header;
+    3,576      if ((header = ExtendHeapSegment(npages)) == NULL) {
+   35,760  => /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:ExtendHeapSegment (745x)
+        .        errno = ENOMEM; // heap segment cannot be extended
+        .        return NULL;
+        .      }
+    2,980      endHeapSegment = (void*)((char*)startHeapSegment+(unsigned int)HeapSegmentSize());
+    2,980  => /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:HeapSegmentSize (745x)
+    4,768      header->payloadSize = createHeaderSize(npages * HeapPageSize(), 0);
+    5,364  => /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:HeapPageSize (745x)
+    3,576  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (745x)
+    4,172      FooterForHeader(header)->payloadSize = header->payloadSize;
+   11,324  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForHeader (745x)
+        .  
+        .      //ptr = PayloadForHeader(header);
+    2,384      header = coalesce(header);
+  135,896  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:coalesce (745x)
+    1,788      addToFreeList(header);
+   64,732  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:addToFreeList (745x)
+        .  
+    2,980      place(header, adjustedSize);
+  257,240  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:place (745x)
+   50,384      return PayloadForHeader(header);
+    3,576  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:PayloadForHeader (745x)
+   96,000  }
+        .  
+        .  
+        .  void myfree(void *ptr)
+  192,000  {
+   96,000      if (ptr == NULL) return;
+        .  
+  192,000      headerT *header = HeaderForPayload(ptr);
+  288,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:HeaderForPayload (60000x)
+  240,000      if (isAllocated(header)==0) return;
+  336,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:isAllocated (60000x)
+        .  
+  192,000      size_t size = getSize(header);
+  336,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:getSize (60000x)
+  336,000      header->payloadSize = createHeaderSize(size, 0);
+  576,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (60000x)
+  432,000      FooterForPayload(ptr)->payloadSize = createHeaderSize(size, 0);
+1,392,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:FooterForPayload (60000x)
+  288,000  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:createHeaderSize (60000x)
+        .  
+        .      //printFreeList();
+        .  
+  192,000      header = coalesce(header);
+13,260,316  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:coalesce (60000x)
+  144,000      addToFreeList(header);
+5,324,876  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:addToFreeList (60000x)
+        .  
+        .      //printFreeList();
+        .      //validate_heap();
+  192,000  }
+        .  
+        .  
+        .  
+        .  // realloc built on malloc/memcpy/free is easy to write.
+        .  // This code will work ok on ordinary cases, but needs attention
+        .  // to robustness. Realloc efficiency can be improved by
+        .  // implementing a standalone realloc as opposed to
+        .  // delegating to malloc/free.
+-- line 466 ----------------------------------------
+
+--------------------------------------------------------------------------------
+-- Auto-annotated source: /afs/ir/users/c/w/cwoebker/cs107/assign7/test-allocator.c
+--------------------------------------------------------------------------------
+     Ir 
+
+-- line 360 ----------------------------------------
+      .      script_t *script = pd->script;
+      .  	
+      .      if (!pd->libc && myinit() != 0) {
+      .          allocator_error(script, 0, "myinit failed.");
+      .          return;
+      .      }
+      .      memset(script->blocks, 0, script->num_ids*sizeof(script->blocks[0]));
+      .  	
+     48      CALLGRIND_TOGGLE_COLLECT;	// turn on valgrind profiler here
+480,024      for (int line = 0;  line < script->num_ops;  line++) {
+672,000          int id = script->ops[line].id;
+672,000          int requested_size = script->ops[line].size;
+      .  		
+960,000          switch (script->ops[line].op) {
+      .  				
+      .              case ALLOC:
+816,000                  script->blocks[id].ptr = pd->libc ? malloc(requested_size) : mymalloc(requested_size);
+32,155,436  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:mymalloc (48000x)
+336,000                  script->blocks[id].size = requested_size;
+ 96,000                  cur_total_payload_size += requested_size;
+ 48,000                  break;
+      .  				
+      .              case REALLOC:
+      .                  script->blocks[id].ptr = pd->libc ? realloc(script->blocks[id].ptr, requested_size) : myrealloc(script->blocks[id].ptr, requested_size);
+      .                  cur_total_payload_size += (requested_size - script->blocks[id].size);
+      .                  script->blocks[id].size = requested_size;
+      .                  break;
+      .  				
+      .              case FREE:
+576,000                  pd->libc? free(script->blocks[id].ptr) : myfree(script->blocks[id].ptr);
+23,721,192  => /afs/ir/users/c/w/cwoebker/cs107/assign7/allocator.c:myfree (48000x)
+336,000                  cur_total_payload_size -= script->blocks[id].size;
+336,000                  script->blocks[id] = (block_t){.ptr = NULL, .size = 0};
+      .                  break;
+      .          }
+356,000          if (cur_total_payload_size > max_total_payload_size) max_total_payload_size = cur_total_payload_size;
+481,192          if (HeapSegmentSize() > max_heap_segment_size) max_heap_segment_size = HeapSegmentSize();
+795,960  => /afs/ir/users/c/w/cwoebker/cs107/assign7/segment.c:HeapSegmentSize (96596x)
+      .      }
+      .  
+     28      *pd->utilization = pd->libc? NAN : ((double)max_total_payload_size)/max_heap_segment_size;
+      .      CALLGRIND_TOGGLE_COLLECT;  // turn off profiler here
+      .  }
+      .  
+      .  
+      .  
+      .  /* Function: VerifyBlock
+      .   * ---------------------
+      .   * Does some simple checks on the block returned by allocator to try to
+-- line 405 ----------------------------------------
+
+--------------------------------------------------------------------------------
+ Ir 
+--------------------------------------------------------------------------------
+100  percentage of events annotated
+
