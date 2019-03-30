@@ -1,19 +1,6 @@
 /*
  * File: allocator.c
  * ------------------
- * A trivial allocator. Very simple code, heinously inefficient. 
- * An allocation request is serviced by incrementing the heap segment
- * to place new block on its own page(s). The block has a pre-node header
- * containing size information. Free is a no-op: blocks are never coalesced
- * or reused. Realloc is implemented using malloc/memcpy/free.
- * Using page-per-node means low utilization. Because it grows the heap segment
- * (using expensive OS call) for each node, it also has low throughput
- * and terrible cache performance.  The code is not robust in terms of
- * handling unusual cases (e.g. segment exhausted or realloc smaller).
- *
- * In short, this implementation has not much going for it other than being
- * the smallest amount of code that "works" for ordinary cases.  But
- * even that's still a good place to start from.
  */
 
 #include <stdio.h>
